@@ -2,7 +2,7 @@
     "name": "wifi",
     "private": true,
     "scripts": {
-        "cli": "babel-node src/cli.js"
+        "cli": "NODE_ENV=development babel-node src/cli.js"
     },
     "repository": {
         "type": "git",
