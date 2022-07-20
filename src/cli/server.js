@@ -12,7 +12,11 @@ command.description('Run server').action(async () => {
 
     const app = express();
     const port = 5000;
-    const int = 'wlp2s0';
+    
+    const interfaces = await Wifi.interfaces();
+    const networkInterface = interfaces.find(({ hotspot }) => !hotspot);
+    const { id: interfaceId } = networkInterface;
+    const wifi = new Wifi(interfaceId);
 
     app.set('view engine', 'html');
     app.engine('html', renderFile);
@@ -33,7 +37,6 @@ command.description('Run server').action(async () => {
     app.post('/connect', async (req, res) => {
         const { ssid, password } = req.body;
         console.log(`Connect on ${ssid}...`);
-        const wifi = new Wifi(int);
         await wifi.connect(ssid, password);
         return res.render(path.join(staticPath, 'success.html.ejs'), {
             
@@ -41,7 +44,6 @@ command.description('Run server').action(async () => {
     });
 
     app.get('*', async (req, res) => {
-        const wifi = new Wifi(int);
         const networks = await wifi.networks();
         return res.render(path.join(staticPath, 'index.html.ejs'), {
             networks,

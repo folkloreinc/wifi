@@ -29,12 +29,20 @@ function listInterfaces() {
                             'GENERAL.DEVICE': 'id',
                             'GENERAL.HWADDR': 'mac',
                             'GENERAL.TYPE': 'type',
+                            'GENERAL.CONNECTION': 'connection',
                         },
                         'GENERAL.DEVICE',
                         ':',
                     ),
                 )
-                .then((interfaces) => interfaces.filter(({ type }) => type === 'wifi'));
+                .then((interfaces) =>
+                    interfaces
+                        .filter(({ type }) => type === 'wifi')
+                        .map(({ connection, ...iface }) => ({
+                            ...iface,
+                            hotspot: (connection || '').toLowerCase() === 'hotspot',
+                        })),
+                );
         default:
             return Promise.reject();
     }
