@@ -18,6 +18,8 @@ command.description('Run server').action(async () => {
     const { id: interfaceId } = networkInterface;
     const wifi = new Wifi(interfaceId);
 
+    console.log(`Interface ${interfaceId}`);
+
     app.set('view engine', 'html');
     app.engine('html', renderFile);
 
@@ -51,7 +53,7 @@ command.description('Run server').action(async () => {
     });
 
     app.listen(port, () => {
-        console.log(`Example app listening on port ${port}`);
+        console.log(`Listening on port ${port}`);
     });
 });
 
