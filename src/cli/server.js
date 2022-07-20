@@ -5,7 +5,7 @@ import path from 'path';
 const command = new Command('server');
 
 command.description('Run server').action(async () => {
-    const staticPath = path.join(__dirname, '../public');
+    const staticPath = path.join(__dirname, '../../public');
 
     const app = express();
     const port = 5000;
