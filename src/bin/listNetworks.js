@@ -1,4 +1,5 @@
 import os from 'os';
+import Parser from 'table-parser';
 
 import parseItemsFromLines from '../utils/parseItemsFromLines';
 import run from '../utils/run';
@@ -17,7 +18,8 @@ function listNetworks(int) {
         case 'linux':
             return run('nmcli', ['device', 'wifi', 'rescan', 'ifname', int]).then(() =>
                 run('nmcli', ['device', 'wifi', 'list', 'ifname', int]).then((out) => {
-                    console.log(out);
+                    const items = Parser.parse(out);
+                    console.log(items);
                 }),
             );
         default:
