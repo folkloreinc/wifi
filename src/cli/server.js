@@ -1,4 +1,5 @@
 import { Command } from 'commander';
+import { renderFile } from 'ejs';
 import express from 'express';
 import path from 'path';
 
@@ -13,7 +14,8 @@ command.description('Run server').action(async () => {
     const port = 5000;
     const int = 'wlp2s0';
 
-    app.set('view engine', 'ejs');
+    app.set('view engine', 'html');
+    app.engine('html', renderFile);
 
     app.use((req, res, next) => {
         if (req.get('User-Agent') && req.get('User-Agent').search('CaptiveNetworkSupport') !== -1) {
@@ -28,7 +30,7 @@ command.description('Run server').action(async () => {
     app.get('*', async (req, res) => {
         const wifi = new Wifi(int);
         const networks = await wifi.networks();
-        return res.render(path.join(staticPath, 'index.html'), {
+        return res.render(path.join(staticPath, 'index.html.ejs'), {
             networks,
         });
     });
