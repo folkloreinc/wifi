@@ -31,6 +31,7 @@ command.description('Run server').action(async () => {
 
     app.post('/connect', async (req, res) => {
         const { ssid, password } = req.body;
+        console.log(`Connect on ${ssid}...`);
         const wifi = new Wifi(int);
         await wifi.connect(ssid, password);
         return res.render(path.join(staticPath, 'success.html.ejs'), {
