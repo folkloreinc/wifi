@@ -1,0 +1,48 @@
+{
+    "name": "wifi",
+    "private": true,
+    "scripts": {
+        "cli": "babel-node src/cli.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/folkloreinc/cuecue.git"
+    },
+    "author": "Folklore <dev@folklore.email>",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/folkloreinc/cuecue/issues"
+    },
+    "homepage": "https://github.com/folkloreinc/cuecue#readme",
+    "devDependencies": {
+        "@babel/cli": "^7.4.3",
+        "@babel/core": "^7.16.0",
+        "@babel/eslint-parser": "^7.16.3",
+        "@babel/node": "^7.16.0",
+        "@babel/plugin-transform-runtime": "^7.16.4",
+        "@babel/preset-env": "^7.16.4",
+        "@babel/preset-react": "^7.16.0",
+        "@rollup/plugin-babel": "^5.3.0",
+        "@rollup/plugin-commonjs": "^22.0.1",
+        "@rollup/plugin-json": "^4.1.0",
+        "@rollup/plugin-node-resolve": "^13.0.6",
+        "@trivago/prettier-plugin-sort-imports": "^3.3.0",
+        "babel-eslint": "^10.1.0",
+        "dotenv": "^16.0.0",
+        "eslint": "^8.3.0",
+        "eslint-config-airbnb": "^19.0.0",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-jsx-a11y": "^6.4.1",
+        "eslint-plugin-prettier": "^4.0.0",
+        "eslint-plugin-react": "^7.23.1",
+        "rollup": "^2.60.1",
+        "stylelint": "^14.0.0",
+        "stylelint-config-idiomatic-order": "^8.1.0",
+        "stylelint-config-prettier": "^9.0.3",
+        "stylelint-config-standard-scss": "^5.0.0"
+    },
+    "dependencies": {
+        "commander": "^9.4.0"
+    }
+}
