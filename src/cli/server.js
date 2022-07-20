@@ -40,7 +40,7 @@ command.description('Run server').action(async () => {
         const { ssid, password } = req.body;
         console.log(`Connect on ${ssid}...`);
         await wifi.connect(ssid, password);
-        return res.render(path.join(staticPath, 'success.html.ejs'), {
+        return res.render(path.join(staticPath, 'index.html.ejs'), {
             
         });
     });

@@ -2,6 +2,9 @@
     "name": "wifi",
     "private": true,
     "scripts": {
+        "build:web": "flklr build --load-env ./src/web/index.js",
+        "server": "flklr serve --load-env ./src/web/index.js",
+        "build": "npm run build:web",
         "cli": "NODE_ENV=development babel-node src/cli.js"
     },
     "repository": {
@@ -22,6 +25,7 @@
         "@babel/plugin-transform-runtime": "^7.16.4",
         "@babel/preset-env": "^7.16.4",
         "@babel/preset-react": "^7.16.0",
+        "@folklore/cli": "^0.0.43",
         "@rollup/plugin-babel": "^5.3.0",
         "@rollup/plugin-commonjs": "^22.0.1",
         "@rollup/plugin-json": "^4.1.0",
@@ -46,6 +50,15 @@
         "commander": "^9.4.0",
         "ejs": "^3.1.8",
         "express": "^4.18.1",
+        "prop-types": "^15.8.1",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
         "table-parser": "^1.0.1"
+    },
+    "build": {
+        "disableImageOptimization": true,
+        "outputPath": "./web/",
+        "srcPath": "./src/",
+        "htmlPath": "src/web/index.html.ejs"
     }
 }
