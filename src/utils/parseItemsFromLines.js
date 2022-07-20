@@ -4,7 +4,7 @@ function parseItemsFromLines(out, properties, resetProperty = null, valueDelimit
         .map((it) => it.trim())
         .reduce(
             ({ item: currentItem, items: currentItems }, line) => {
-                const [label, value = null] = line.split(valueDelimiter);
+                const [label, value = null] = line.split(valueDelimiter, 2);
                 const key = label.trim();
                 if (typeof properties[key] !== 'undefined' && value !== null) {
                     const reset = key === resetProperty;
