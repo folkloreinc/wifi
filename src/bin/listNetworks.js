@@ -15,7 +15,7 @@ function listNetworks(int) {
                 console.log(columns.split('\t'));
             });
         case 'linux':
-            return run('nmcli', ['device', 'wifi', 'rescan', 'ifname', int]).then(() =>
+            return run('nmcli', ['device', 'wifi', 'rescan', 'ifname', int]).catch(() => {}).then(() =>
                 run('nmcli', ['device', 'wifi', 'list', 'ifname', int]).then((out) => {
                     const items = Parser.parse(out);
                     return items.map(({ SSID, SECURITY }) => ({
