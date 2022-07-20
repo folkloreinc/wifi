@@ -1,7 +1,6 @@
 import os from 'os';
 import Parser from 'table-parser';
 
-import parseItemsFromLines from '../utils/parseItemsFromLines';
 import run from '../utils/run';
 
 function listNetworks(int) {
@@ -19,7 +18,10 @@ function listNetworks(int) {
             return run('nmcli', ['device', 'wifi', 'rescan', 'ifname', int]).then(() =>
                 run('nmcli', ['device', 'wifi', 'list', 'ifname', int]).then((out) => {
                     const items = Parser.parse(out);
-                    console.log(items);
+                    return items.map(({ SSID, SECURITY }) => ({
+                        ssid: SSID.join(' '),
+                        security: SECURITY.join(' '),
+                    }));
                 }),
             );
         default:
