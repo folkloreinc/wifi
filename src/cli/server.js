@@ -18,6 +18,7 @@ command.description('Run server').action(async () => {
     app.engine('html', renderFile);
 
     app.use(express.json());
+    app.use(express.urlencoded());
 
     app.use((req, res, next) => {
         if (req.get('User-Agent') && req.get('User-Agent').search('CaptiveNetworkSupport') !== -1) {
