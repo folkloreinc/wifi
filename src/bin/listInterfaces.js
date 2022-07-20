@@ -21,17 +21,19 @@ function listInterfaces() {
                 )
                 .then((interfaces) => interfaces.filter(({ label }) => label.match(/^Wi-Fi/i)));
         case 'linux':
-            return run('nmcli', ['device', 'show']).then((out) =>
-                parseItemsFromLines(
-                    out,
-                    {
-                        'GENERAL.DEVICE': 'id',
-                        'GENERAL.HWADDR': 'mac',
-                        'GENERAL.TYPE': 'type',
-                    },
-                    'GENERAL.DEVICE',
-                ).then((interfaces) => interfaces.filter(({ type }) => type === 'wifi')),
-            );
+            return run('nmcli', ['device', 'show'])
+                .then((out) =>
+                    parseItemsFromLines(
+                        out,
+                        {
+                            'GENERAL.DEVICE': 'id',
+                            'GENERAL.HWADDR': 'mac',
+                            'GENERAL.TYPE': 'type',
+                        },
+                        'GENERAL.DEVICE',
+                    ),
+                )
+                .then((interfaces) => interfaces.filter(({ type }) => type === 'wifi'));
         default:
             return Promise.reject();
     }
