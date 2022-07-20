@@ -17,6 +17,9 @@ command.description('Run server').action(async () => {
     app.set('view engine', 'html');
     app.engine('html', renderFile);
 
+    app.use(express.json());
+    app.use(express.urlencoded());
+
     app.use((req, res, next) => {
         if (req.get('User-Agent') && req.get('User-Agent').search('CaptiveNetworkSupport') !== -1) {
             console.log('CAPTIVE');
@@ -26,6 +29,15 @@ command.description('Run server').action(async () => {
     });
 
     app.use(express.static(staticPath));
+
+    app.post('/connect', async (req, res) => {
+        const { ssid, password } = req.body;
+        const wifi = new Wifi(int);
+        await wifi.connect(ssid, password);
+        return res.render(path.join(staticPath, 'success.html.ejs'), {
+            
+        });
+    });
 
     app.get('*', async (req, res) => {
         const wifi = new Wifi(int);
