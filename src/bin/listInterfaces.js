@@ -16,7 +16,7 @@ function listInterfaces() {
                             'Ethernet Address': 'mac',
                         },
                         'Hardware Port',
-                        ': ',
+                        ':',
                     ),
                 )
                 .then((interfaces) => interfaces.filter(({ label }) => label.match(/^Wi-Fi/i)));
@@ -31,6 +31,7 @@ function listInterfaces() {
                             'GENERAL.TYPE': 'type',
                         },
                         'GENERAL.DEVICE',
+                        ':',
                     ),
                 )
                 .then((interfaces) => interfaces.filter(({ type }) => type === 'wifi'));
