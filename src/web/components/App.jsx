@@ -28,7 +28,7 @@ function App({ online, networks }) {
             <div className="container">
                 {online ? (
                     <div className="row justify-content-center mt-4">
-                        <div className="col-6">
+                        <div className="col-lg-6">
                             <div className="card text-bg-success">
                                 <div className="card-body  text-center p-4">
                                     <div className="h4 m-4 text-bold">
@@ -41,7 +41,7 @@ function App({ online, networks }) {
                     </div>
                 ) : null}
                 <div className="row justify-content-center mt-4">
-                    <div className="col-6">
+                    <div className="col-lg-6">
                         <div className="card">
                             <div className="card-body">
                                 {online ? (
