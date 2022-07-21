@@ -13,6 +13,6 @@ module.exports = {
 
     plugins: [[require.resolve('@babel/plugin-transform-runtime'), {}]],
 
-    // ignore: [/node_modules\/(?!is-online)/],
-    ignore: [],
+    ignore: [/node_modules\/(?!is-online)/],
+    // ignore: [],
 };
