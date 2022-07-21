@@ -5,5 +5,11 @@
     </head>
     <body>
         <div id="app"></div>
+        <script type="text/javascript">
+            var props = {
+                online: <%= "\<%=JSON.stringify(online)%\>" %>,
+                networks: <%= "\<%=JSON.stringify(networks)%\>" %>
+            };
+        </script>
     </body>
 </html>

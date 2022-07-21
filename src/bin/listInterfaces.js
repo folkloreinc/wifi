@@ -30,6 +30,7 @@ function listInterfaces() {
                             'GENERAL.HWADDR': 'mac',
                             'GENERAL.TYPE': 'type',
                             'GENERAL.CONNECTION': 'connection',
+                            'GENERAL.STATE': 'state'
                         },
                         'GENERAL.DEVICE',
                         ':',
@@ -38,9 +39,10 @@ function listInterfaces() {
                 .then((interfaces) =>
                     interfaces
                         .filter(({ type }) => type === 'wifi')
-                        .map(({ connection, ...iface }) => ({
+                        .map(({ connection, state, ...iface }) => ({
                             ...iface,
                             hotspot: (connection || '').toLowerCase() === 'hotspot',
+                            connected: (state || '').split(' ')[0] === '100'
                         })),
                 );
         default:

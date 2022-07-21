@@ -2,10 +2,11 @@
     "name": "wifi",
     "private": true,
     "scripts": {
-        "build:web": "flklr build --load-env ./src/web/index.js",
-        "server": "flklr serve --load-env ./src/web/index.js",
+        "build:web": "flklr build --load-env --html-output-path=index.html.ejs  ./src/web/index.js",
+        "server": "flklr serve --load-env --html-output-path=index.html ./src/web/index.js",
         "build": "npm run build:web",
-        "cli": "NODE_ENV=development babel-node src/cli.js"
+        "cli": "NODE_ENV=development babel-node src/cli.js",
+        "start": "npm run server"
     },
     "repository": {
         "type": "git",
@@ -25,13 +26,14 @@
         "@babel/plugin-transform-runtime": "^7.16.4",
         "@babel/preset-env": "^7.16.4",
         "@babel/preset-react": "^7.16.0",
-        "@folklore/cli": "^0.0.43",
+        "@folklore/cli": "^0.0.44",
         "@rollup/plugin-babel": "^5.3.0",
         "@rollup/plugin-commonjs": "^22.0.1",
         "@rollup/plugin-json": "^4.1.0",
         "@rollup/plugin-node-resolve": "^13.0.6",
         "@trivago/prettier-plugin-sort-imports": "^3.3.0",
         "babel-eslint": "^10.1.0",
+        "cssnano": "^5.1.12",
         "dotenv": "^16.0.0",
         "eslint": "^8.3.0",
         "eslint-config-airbnb": "^19.0.0",
@@ -40,6 +42,8 @@
         "eslint-plugin-jsx-a11y": "^6.4.1",
         "eslint-plugin-prettier": "^4.0.0",
         "eslint-plugin-react": "^7.23.1",
+        "postcss-flexbugs-fixes": "^5.0.2",
+        "postcss-preset-env": "^7.7.2",
         "rollup": "^2.60.1",
         "stylelint": "^14.0.0",
         "stylelint-config-idiomatic-order": "^8.1.0",
@@ -47,13 +51,23 @@
         "stylelint-config-standard-scss": "^5.0.0"
     },
     "dependencies": {
+        "@folklore/fetch": "^0.1.15",
+        "@folklore/forms": "^0.0.19",
+        "@folklore/hooks": "^0.0.26",
+        "bootstrap": "^5.2.0",
+        "bootstrap-icons": "^1.9.1",
+        "classnames": "^2.3.1",
         "commander": "^9.4.0",
         "ejs": "^3.1.8",
         "express": "^4.18.1",
+        "lodash": "^4.17.21",
         "prop-types": "^15.8.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "table-parser": "^1.0.1"
+    },
+    "overrides": {
+        "autoprefixer": "10.4.5"
     },
     "build": {
         "disableImageOptimization": true,

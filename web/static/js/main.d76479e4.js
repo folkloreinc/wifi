@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkwifi=self.webpackChunkwifi||[]).push([[179],{912:function(e,n,t){var r=t(526),u=t(961),i=t(557);function p(){return(0,i.jsx)("div",{})}p.propTypes={},p.defaultProps={};var s=p,c=r.createElement(s,window.props||{});u.render(c,document.getElementById("app"))}},function(e){e.O(0,[267],(function(){return 912,e(e.s=912)})),e.O()}]);
+//# sourceMappingURL=main.d76479e4.js.map

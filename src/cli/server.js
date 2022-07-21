@@ -4,15 +4,16 @@ import express from 'express';
 import path from 'path';
 
 import Wifi from '../lib/Wifi';
+import isOnline from '../utils/isOnline';
 
 const command = new Command('server');
 
 command.description('Run server').action(async () => {
-    const staticPath = path.join(__dirname, '../../public');
+    const webPath = path.join(__dirname, '../../web');
 
     const app = express();
     const port = 5000;
-    
+
     const interfaces = await Wifi.interfaces();
     const networkInterface = interfaces.find(({ hotspot }) => !hotspot);
     const { id: interfaceId } = networkInterface;
@@ -28,27 +29,51 @@ command.description('Run server').action(async () => {
 
     app.use((req, res, next) => {
         if (req.get('User-Agent') && req.get('User-Agent').search('CaptiveNetworkSupport') !== -1) {
-            console.log('CAPTIVE');
+            console.log('Receiving CaptiveNetworkSupport');
             return res.end('NO SUCCESS');
         }
         return next();
     });
 
-    app.use(express.static(staticPath));
+    app.use(express.static(webPath));
+
+    app.get('/status', async (req, res) => {
+        const networks = await wifi.networks();
+        const online = await isOnline();
+        return res.json({
+            online,
+            networks,
+        });
+    });
 
     app.post('/connect', async (req, res) => {
         const { ssid, password } = req.body;
         console.log(`Connect on ${ssid}...`);
         await wifi.connect(ssid, password);
-        return res.render(path.join(staticPath, 'index.html.ejs'), {
-            
+        const networks = await wifi.networks();
+        const online = await isOnline();
+        const network = await wifi.network();
+        return res.json({
+            online,
+            networks: networks.map(({ ssid: currentSsid, ...data }) => ({
+                ...data,
+                ssid: currentSsid,
+                connected: currentSsid === network,
+            })),
         });
     });
 
     app.get('*', async (req, res) => {
+        const online = await isOnline();
         const networks = await wifi.networks();
-        return res.render(path.join(staticPath, 'index.html.ejs'), {
-            networks,
+        const network = await wifi.network();
+        return res.render(path.join(webPath, 'index.html.ejs'), {
+            online,
+            networks: networks.map(({ ssid, ...data }) => ({
+                ...data,
+                ssid,
+                connected: ssid === network,
+            })),
         });
     });
 

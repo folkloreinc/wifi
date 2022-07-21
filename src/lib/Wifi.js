@@ -2,6 +2,7 @@
 import listInterfaces from '../bin/listInterfaces';
 import listNetworks from '../bin/listNetworks';
 import connect from '../bin/connect';
+import getNetwork from '../bin/getNetwork';
 
 class Wifi {
     constructor(int, opts) {
@@ -18,6 +19,10 @@ class Wifi {
 
     connected() {
 
+    }
+
+    network() {
+        return getNetwork(this.interface);
     }
 
     connect(ssid, password) {

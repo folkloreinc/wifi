@@ -9,11 +9,11 @@ module.exports = {
         }),
         require('cssnano')({
             preset: ['default', {
-                svgo: {
-                    plugins: [{
-                        removeViewBox: false,
-                    }],
-                },
+                // svgo: {
+                //     plugins: [{
+                //         removeViewBox: false,
+                //     }],
+                // },
             }],
         }),
     ],
