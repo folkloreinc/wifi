@@ -33,7 +33,9 @@ function ConnectForm({ networks, className }) {
     const { fields, onSubmit, status } = useForm({
         fields: ['ssid', 'password'],
         action: '/connect',
-        initialValue: ssids.length > 0 ? ssids[0] : null,
+        initialValue: ssids.length > 0 ? {
+            ssid: ssids[0]
+         } : null,
         getFieldValue,
     });
     return (

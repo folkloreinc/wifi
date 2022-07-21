@@ -49,7 +49,9 @@ command.description('Run server').action(async () => {
     app.post('/connect', async (req, res) => {
         const { ssid, password } = req.body;
         console.log(`Connect on ${ssid}...`);
-        await wifi.connect(ssid, password);
+        try {
+            await wifi.connect(ssid, password);
+        } catch (e) {}
         const networks = await wifi.networks();
         const online = await isOnline();
         const network = await wifi.network();
@@ -62,7 +64,7 @@ command.description('Run server').action(async () => {
             })),
         });
     });
-    
+
     app.get('/', async (req, res) => {
         const online = await isOnline();
         const networks = await wifi.networks();
