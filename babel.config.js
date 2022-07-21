@@ -14,4 +14,5 @@ module.exports = {
     plugins: [[require.resolve('@babel/plugin-transform-runtime'), {}]],
 
     include: [/src/, /node_modules/],
+    exclude: [],
 };
