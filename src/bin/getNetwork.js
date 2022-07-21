@@ -22,7 +22,6 @@ function getNetwork(int) {
                         .split('\n')
                         .find((line) => line.match(/^802-11-wireless\.ssid/) !== null);
                     const [, value = null] = ssidLine.split(':', 2) || [];
-                    console.log(value);
                     return value !== null ? value.trim() : null;
                 })
                 .catch(() => null);
