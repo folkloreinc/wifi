@@ -32,7 +32,7 @@ function App({ online, networks }) {
                             <div className="card text-bg-success">
                                 <div className="card-body  text-center p-4">
                                     <div className="h4 m-4 text-bold">
-                                        <i className="bi bi-hand-thumbs-up" /> Connecté au réseau{' '}
+                                        <i className="bi bi-hand-thumbs-up" /> Connecté au Wi-Fi{' '}
                                         {connectedNetwork}
                                     </div>
                                 </div>

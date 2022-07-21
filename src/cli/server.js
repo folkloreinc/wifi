@@ -69,7 +69,6 @@ command.description('Run server').action(async () => {
         const online = await isOnline();
         const networks = await wifi.networks();
         const network = await wifi.network();
-        console.log(network);
         return res.render(path.join(webPath, 'index.html.ejs'), {
             online,
             networks: networks.map(({ ssid, ...data }) => ({
@@ -84,7 +83,6 @@ command.description('Run server').action(async () => {
         const online = await isOnline();
         const networks = await wifi.networks();
         const network = await wifi.network();
-        console.log(network);
         return res.render(path.join(webPath, 'index.html.ejs'), {
             online,
             networks: networks.map(({ ssid, ...data }) => ({
