@@ -62,6 +62,20 @@ command.description('Run server').action(async () => {
             })),
         });
     });
+    
+    app.get('/', async (req, res) => {
+        const online = await isOnline();
+        const networks = await wifi.networks();
+        const network = await wifi.network();
+        return res.render(path.join(webPath, 'index.html.ejs'), {
+            online,
+            networks: networks.map(({ ssid, ...data }) => ({
+                ...data,
+                ssid,
+                connected: ssid === network,
+            })),
+        });
+    });
 
     app.get('*', async (req, res) => {
         const online = await isOnline();
