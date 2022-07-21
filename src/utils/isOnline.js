@@ -1,12 +1,12 @@
 import dns from 'dns';
 
 function isOnline() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         dns.resolve('www.google.com', (err) => {
             if (err) {
-                reject(err);
+                resolve(false);
             } else {
-                resolve();
+                resolve(true);
             }
         });
     });
