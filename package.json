@@ -60,10 +60,13 @@
         "commander": "^9.4.0",
         "ejs": "^3.1.8",
         "express": "^4.18.1",
+        "is-online": "^10.0.0",
+        "is-online-emitter": "^3.0.0",
         "lodash": "^4.17.21",
         "prop-types": "^15.8.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
+        "socket.io": "^4.5.1",
         "table-parser": "^1.0.1"
     },
     "overrides": {

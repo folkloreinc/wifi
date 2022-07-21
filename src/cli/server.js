@@ -1,18 +1,28 @@
 import { Command } from 'commander';
 import { renderFile } from 'ejs';
 import express from 'express';
+import { createServer } from 'http';
+import isOnline from 'is-online';
+import IsOnlineEmitter from 'is-online-emitter';
 import path from 'path';
 
 import Wifi from '../lib/Wifi';
-import isOnline from '../utils/isOnline';
+
+import { Server } from 'socket.io';
 
 const command = new Command('server');
 
 command.description('Run server').action(async () => {
     const webPath = path.join(__dirname, '../../web');
 
-    const app = express();
     const port = 5000;
+    const app = express();
+    const httpServer = createServer(app);
+    const io = new Server(httpServer);
+
+    const emitter = new IsOnlineEmitter({});
+    // Listening to `connectivity.change` events.
+    emitter.on('connectivity.change', console.log);
 
     const interfaces = await Wifi.interfaces();
     const networkInterface = interfaces.find(({ hotspot }) => !hotspot);
@@ -93,7 +103,7 @@ command.description('Run server').action(async () => {
         });
     });
 
-    app.listen(port, () => {
+    httpServer.listen(port, () => {
         console.log(`Listening on port ${port}`);
     });
 });
