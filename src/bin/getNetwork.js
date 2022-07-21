@@ -17,7 +17,7 @@ function getNetwork(int) {
                     console.log(value);
                     return value.trim();
                 })
-                .then((connectionName) => run('nmcli', ['conn', 'show', connectionName]))
+                .then((connectionName) => run('nmcli', ['conn', 'show', `"${connectionName}"`]))
                 .then((out) => {
                     const ssidLine = out
                         .split('\n')
