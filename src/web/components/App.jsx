@@ -32,8 +32,8 @@ function App({ online, networks }) {
                             <div className="card text-bg-success">
                                 <div className="card-body  text-center p-4">
                                     <div className="h4 m-4 text-bold">
-                                        <i className="bi bi-hand-thumbs-up" /> Connecté
-                                        au réseau {connectedNetwork}
+                                        <i className="bi bi-hand-thumbs-up" /> Connecté au réseau{' '}
+                                        {connectedNetwork}
                                     </div>
                                 </div>
                             </div>
@@ -44,7 +44,11 @@ function App({ online, networks }) {
                     <div className="col-6">
                         <div className="card">
                             <div className="card-body">
-                                {online ? <h4 className="mb-4">Modifier le réseau</h4> : null}
+                                {online ? (
+                                    <h4 className="mb-4">Modifier le Wi-Fi</h4>
+                                ) : (
+                                    <h4 className="mb-4">Connecter le Wi-Fi</h4>
+                                )}
                                 <ConnectForm networks={networks} />
                             </div>
                         </div>
