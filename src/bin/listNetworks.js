@@ -6,9 +6,7 @@ import run from '../utils/run';
 function listNetworks(int) {
     switch (os.platform()) {
         case 'linux':
-            return run('nmcli', ['device', 'wifi', 'rescan', 'ifname', int]).catch((e) => {
-                console.log(e);
-            }).then(() =>
+            return run('sudo nmcli', ['device', 'wifi', 'rescan', 'ifname', int]).catch((e) => {}).then(() =>
                 run('nmcli', ['device', 'wifi', 'list', 'ifname', int]).then((out) => {
                     const items = Parser.parse(out);
                     return items.map(({ SSID, SECURITY }) => ({
