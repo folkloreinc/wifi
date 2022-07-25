@@ -5,7 +5,7 @@
         <script type="text/javascript">
             var props = process.env.NODE_ENV === 'production' ? {
                 locale: <%= "\<%=locale%\>" %>,
-                translations: <%= "\<%=translations%\>" %>,
+                translations: <%= "\<%-JSON.stringify(networks)%\>" %>,
                 online: <%= "\<%=online ? 'true' : 'false'%\>" %>,
                 networks: <%= "\<%-JSON.stringify(networks)%\>" %>
             } : {};
