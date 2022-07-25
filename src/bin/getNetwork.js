@@ -5,7 +5,7 @@ import run from '../utils/run';
 function getNetwork(int) {
     switch (os.platform()) {
         case 'linux':
-            return run('nmcli', ['device', 'show', int])
+            return run('sudo nmcli', ['device', 'show', int])
                 .then((out) => {
                     const connectionLine = out
                         .split('\n')
@@ -16,7 +16,7 @@ function getNetwork(int) {
                     }
                     return value.trim();
                 })
-                .then((connectionName) => run('nmcli', ['conn', 'show', `"${connectionName}"`]))
+                .then((connectionName) => run('sudo nmcli', ['conn', 'show', `"${connectionName}"`]))
                 .then((out) => {
                     const ssidLine = out
                         .split('\n')
