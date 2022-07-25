@@ -1,9 +1,10 @@
 // import path from 'path';
 import babel from '@rollup/plugin-babel';
-import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 // import svgo from 'rollup-plugin-svgo';
 import json from '@rollup/plugin-json';
+import resolve from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
 
 export const plugins = [
     json(),
@@ -20,6 +21,11 @@ export const plugins = [
         rootMode: 'upward',
         babelHelpers: 'runtime',
     }),
+    replace({
+        'process.env.NODE_ENV': JSON.stringify('production'),
+        __buildDate__: () => JSON.stringify(new Date()),
+        __buildVersion: 15,
+    }),
 ];
 
 export default [
@@ -27,7 +33,7 @@ export default [
         input: 'src/index.js',
         output: {
             file: 'index.js',
-            format: 'cjs'
+            format: 'cjs',
         },
         plugins,
     },
@@ -36,8 +42,8 @@ export default [
         output: {
             file: 'cli.js',
             format: 'cjs',
-            banner: '#!/usr/bin/env node'
+            banner: '#!/usr/bin/env node',
         },
         plugins,
-    }
+    },
 ];

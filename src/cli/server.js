@@ -14,8 +14,8 @@ import Wifi from '../lib/Wifi';
 const debug = createDebug('wifi:server');
 const command = new Command('server');
 
-const localesPath = process.env.NODE_ENV === 'development' ? path.join(__dirname, '../../locale') : path.join(__dirname, './locale');
-const webPath = process.env.NODE_ENV === 'development' ? path.join(__dirname, '../../web') : path.join(__dirname, './web');
+const localesPath = process.env.NODE_ENV === 'production' ? path.join(__dirname, './locale') : path.join(__dirname, '../../locale');
+const webPath = process.env.NODE_ENV === 'production' ? path.join(__dirname, './web') : path.join(__dirname, '../../web');
 
 command
     .description('Run server')
