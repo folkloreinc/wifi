@@ -10,13 +10,15 @@ import '../styles/styles.scss';
 
 const propTypes = {
     className: PropTypes.string,
+    onRefreshNetworks: PropTypes.func,
 };
 
 const defaultProps = {
     className: null,
+    onRefreshNetworks: null,
 };
 
-function Interface({ className }) {
+function Interface({ className, onRefreshNetworks }) {
     const online = useOnline();
     const networks = useNetworks();
     return (
@@ -29,13 +31,27 @@ function Interface({ className }) {
             ])}
         >
             <div className="row justify-content-center mt-4">
-                <div className="col-lg-6">
-                    <Status online={online} networks={networks} />
-                </div>
-            </div>
-            <div className="row justify-content-center mt-4">
-                <div className="col-lg-6">
-                    <ConnectForm networks={networks} />
+                <div
+                    className={classNames([
+                        'col-lg-5',
+                        'd-flex',
+                        {
+                            'flex-column-reverse': !online,
+                            'flex-column': online,
+                        },
+                    ])}
+                >
+                    <Status
+                        online={online}
+                        networks={networks}
+                        className={classNames([
+                            {
+                                'mb-4': online,
+                                'mt-4': !online,
+                            },
+                        ])}
+                    />
+                    <ConnectForm networks={networks} onClickRefresh={onRefreshNetworks} />
                 </div>
             </div>
         </div>

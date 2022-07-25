@@ -29,13 +29,22 @@ function Status({ online, networks, className }) {
                 'card',
                 {
                     'text-bg-success': online,
-                    'text-bg-danger': !online,
+                    'text-bg-warning': !online,
                     [className]: className !== null,
                 },
             ])}
         >
             <div className="card-body text-center">
-                <div className="h4 m-4 text-bold">
+                <div
+                    className={classNames([
+                        {
+                            h4: online,
+                            h6: !online,
+                            'm-4': online,
+                            'm-2': !online,
+                        },
+                    ])}
+                >
                     <i
                         className={classNames([
                             'bi',
@@ -48,7 +57,7 @@ function Status({ online, networks, className }) {
                     />
                     {online ? (
                         <FormattedMessage
-                            defaultMessage="Connected to Wi-Fi {network}"
+                            defaultMessage="Connected to Internet on Wi-Fi {network}"
                             description="Status label"
                             values={{
                                 network: connectedNetwork,
@@ -56,7 +65,7 @@ function Status({ online, networks, className }) {
                         />
                     ) : (
                         <FormattedMessage
-                            defaultMessage="Not connected"
+                            defaultMessage="Device not connected to Internet"
                             description="Status label"
                         />
                     )}

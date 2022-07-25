@@ -1,5 +1,6 @@
+import { getJSON } from '@folklore/fetch';
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { IntlProvider } from 'react-intl';
 import io from 'socket.io-client';
 
@@ -8,7 +9,7 @@ import Interface from './Interface';
 
 import '../styles/styles.scss';
 
-const socket = io();
+const socket = io('http://localhost:8001');
 
 const propTypes = {
     networks: PropTypes.arrayOf(
@@ -29,6 +30,10 @@ const defaultProps = {
 function App({ online: initialOnline, networks: initialNetworks, locale }) {
     const [online, setOnline] = useState(initialOnline);
     const [networks, setNetworks] = useState(initialNetworks);
+
+    const onRefreshNetworks = useCallback(() => {
+        getJSON('/networks').then((newNetworks) => setNetworks(newNetworks));
+    }, [setNetworks]);
 
     useEffect(() => {
         socket.on('status', ({ online: newOnline, networks: newNetworks }) => {
@@ -54,7 +59,7 @@ function App({ online: initialOnline, networks: initialNetworks, locale }) {
     return (
         <NetworkProvider online={online} networks={networks}>
             <IntlProvider locale={locale}>
-                <Interface />
+                <Interface onRefreshNetworks={onRefreshNetworks} />
             </IntlProvider>
         </NetworkProvider>
     );

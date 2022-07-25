@@ -12,16 +12,18 @@ const propTypes = {
             ssid: PropTypes.string,
         }),
     ),
+    onClickRefresh: PropTypes.func,
     className: PropTypes.string,
 };
 
 const defaultProps = {
     online: false,
     networks: [],
+    onClickRefresh: null,
     className: null,
 };
 
-function ConnectForm({ online, networks, className }) {
+function ConnectForm({ online, networks, className, onClickRefresh }) {
     const ssids = useMemo(
         () =>
             networks.reduce(
@@ -67,22 +69,44 @@ function ConnectForm({ online, networks, className }) {
                 <form action="/connect" method="post" onSubmit={onSubmit}>
                     <div className="mb-3">
                         <label className="form-label" htmlFor="ssid">
-                            <FormattedMessage defaultMessage="Network" description="Field label" />
+                            <FormattedMessage
+                                defaultMessage="Wi-Fi network:"
+                                description="Field label"
+                            />
                         </label>
-                        <select
-                            name="ssid"
-                            className="form-control form-control-lg"
-                            required
-                            {...fields.ssid}
-                        >
-                            {ssids.map((ssid) => (
-                                <option value={ssid}>{ssid}</option>
-                            ))}
-                        </select>
+                        <div className="input-group">
+                            <select
+                                name="ssid"
+                                className="form-control form-control-lg"
+                                required
+                                disabled={ssids.length === 0}
+                                {...fields.ssid}
+                            >
+                                {ssids.length > 0 ? (
+                                    ssids.map((ssid) => (
+                                        <option value={ssid} key={`option-${ssid}`}>
+                                            {ssid}
+                                        </option>
+                                    ))
+                                ) : (
+                                    <option value="">No network found.</option>
+                                )}
+                            </select>
+                            <button
+                                type="button"
+                                className="btn btn-outline-secondary"
+                                onClick={onClickRefresh}
+                            >
+                                <i className="bi bi-arrow-clockwise" />
+                            </button>
+                        </div>
                     </div>
                     <div className="mb-4">
                         <label className="form-label" htmlFor="password">
-                            <FormattedMessage defaultMessage="Password" description="Field label" />
+                            <FormattedMessage
+                                defaultMessage="Wi-Fi password:"
+                                description="Field label"
+                            />
                         </label>
                         <input
                             type="text"

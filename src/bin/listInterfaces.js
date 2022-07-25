@@ -19,7 +19,7 @@ function listInterfaces() {
                         ':',
                     ),
                 )
-                .then((interfaces) => interfaces.filter(({ label }) => label.match(/^Wi-Fi/i)));
+                .then((interfaces) => interfaces.filter(({ label }) => label.match(/^(Wi-Fi|Wireless)/i)));
         case 'linux':
             return run('nmcli', ['device', 'show'])
                 .then((out) =>

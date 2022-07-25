@@ -13,21 +13,27 @@ import Wifi from '../lib/Wifi';
 const debug = createDebug('wifi:server');
 const command = new Command('server');
 
+const webPath = path.join(__dirname, '../../web');
+
 command
     .description('Run server')
     .option('-p, --port <port>', 'Server port', process.env.UI_PORT || 5000)
     .option('-l, --locale <locale>', 'interface locale', process.env.UI_LOCALE || 'en')
     .option('-i, --iface <interface>', 'Interface to use')
+    .option('--online-check-interval <interval>', 'Interval to check if online', 10000)
     .action(async () => {
-        const webPath = path.join(__dirname, '../../web');
-
-        const { port, iface = null, locale } = command.opts();
+        // Options
+        const { port, iface = null, locale, onlineCheckInterval } = command.opts();
 
         // Server
         const app = express();
         const httpServer = createServer(app);
-        const io = new Server(httpServer);
-
+        const io = new Server(httpServer, {
+            cors: {
+                origin: '*',
+                methods: ['GET', 'POST'],
+            },
+        });
         app.set('view engine', 'html');
         app.engine('html', renderFile);
         app.use(express.json());
@@ -44,6 +50,7 @@ command
         const interfaceId = iface || networkInterfaceId;
         const wifi = new Wifi(interfaceId);
 
+        // Status
         async function getStatus() {
             let networks = [];
             try {
@@ -76,13 +83,41 @@ command
         }
         let status = await getStatus();
 
+        async function checkOnline() {
+            debug('Checking online...');
+            const { online: currentOnline = false } = status;
+            let newOnline = false;
+            try {
+                newOnline = await isOnline();
+            } catch (e) {
+                debug('Status error with online: %s', e);
+            }
+            if (currentOnline !== newOnline) {
+                debug('Online status changed: %s', newOnline ? 'true' : 'false');
+                status = {
+                    ...status,
+                    online: newOnline,
+                };
+                io.emit('online', newOnline);
+            } else {
+                debug('Online status unchanged.');
+            }
+        }
+        setInterval(checkOnline, onlineCheckInterval);
+
         async function updateStatus() {
             status = await getStatus();
             io.emit('status', status);
+            return status;
         }
 
         debug('Interface %s', interfaceId);
         debug(`Status %O`, status);
+
+        // Server
+        io.on('connection', (socket) => {
+            socket.emit('status', status);
+        });
 
         app.use((req, res, next) => {
             if (
@@ -97,21 +132,38 @@ command
 
         app.use(express.static(webPath));
 
-        app.get('/status', async (req, res) => res.json(status));
+        app.get('/status', (req, res) => res.json(status));
+        app.post('/status', async (req, res) => {
+            const newStatus = await updateStatus();
+            return res.json(newStatus);
+        });
+
+        app.get('/networks', async (req, res) => {
+            const { networks: currentNetworks } = status;
+            return res.json(currentNetworks);
+        });
+        app.post('/networks', async (req, res) => {
+            const { networks: newNetworks } = await updateStatus();
+            return res.json(newNetworks);
+        });
 
         app.post('/connect', async (req, res) => {
             const { ssid, password } = req.body;
+
             debug('Connect to %s...', ssid);
+
             try {
                 await wifi.connect(ssid, password);
             } catch (e) {
                 debug('Error while connecting: %s', e);
             }
+
             try {
                 await updateStatus();
             } catch (e) {
                 debug('Error while updating status: %s', e);
             }
+
             return res.json(status);
         });
 
@@ -124,6 +176,7 @@ command
 
         app.get('*', async (req, res) => {
             debug('Request to %s', req.pathname);
+
             return res.render(path.join(webPath, 'index.html.ejs'), {
                 ...status,
                 locale,
