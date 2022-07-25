@@ -7,9 +7,7 @@ function listNetworks(int) {
     switch (os.platform()) {
         case 'linux':
             return run('sudo nmcli', ['device', 'wifi', 'rescan', 'ifname', int])
-                .catch((e) => {
-                    console.log(e);
-                })
+                .catch(() => {})
                 .then(() =>
                     run('sudo nmcli', ['device', 'wifi', 'list', 'ifname', int]).then((out) => {
                         const items = Parser.parse(out);
