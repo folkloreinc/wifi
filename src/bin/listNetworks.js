@@ -16,7 +16,7 @@ function listNetworks(int) {
                 }),
             );
         default:
-            return Promise.reject();
+            return Promise.reject(new Error('OS not supported'));
     }
 }
 

@@ -6,7 +6,7 @@ module.exports = {
                 targets: {
                     node: 14,
                 },
-                useBuiltIns: false,
+                useBuiltIns: false
             },
         ],
     ],
@@ -14,4 +14,10 @@ module.exports = {
     plugins: [[require.resolve('@babel/plugin-transform-runtime'), {}]],
 
     ignore: [/node_modules\/(?!is-online|public-ip)/]
+    // ignore: [
+    //     (filename) => {
+    //         console.log(filename);
+    //         return false;
+    //     },
+    // ],
 };

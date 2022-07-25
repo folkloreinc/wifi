@@ -9,7 +9,7 @@ function connect(int, ssid, password) {
                 console.log(out);
             });
         default:
-            return Promise.reject();
+            return Promise.reject(new Error('OS not supported'));
     }
 }
 
