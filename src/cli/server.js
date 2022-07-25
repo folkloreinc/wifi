@@ -7,13 +7,15 @@ import isOnline from 'is-online';
 // import IsOnlineEmitter from 'is-online-emitter';
 import path from 'path';
 import { Server } from 'socket.io';
+import fs from 'fs-extra';
 
 import Wifi from '../lib/Wifi';
 
 const debug = createDebug('wifi:server');
 const command = new Command('server');
 
-const webPath = path.join(__dirname, '../../web');
+const localesPath = process.env.NODE_ENV === 'development' ? path.join(__dirname, '../../locale') : path.join(__dirname, './locale');
+const webPath = process.env.NODE_ENV === 'development' ? path.join(__dirname, '../../web') : path.join(__dirname, './web');
 
 command
     .description('Run server')
@@ -24,6 +26,8 @@ command
     .action(async () => {
         // Options
         const { port, iface = null, locale, onlineCheckInterval } = command.opts();
+
+        const translations = await fs.readJson(path.join(localesPath, `${locale}.json`));
 
         // Server
         const app = express();
@@ -171,6 +175,7 @@ command
             res.render(path.join(webPath, 'index.html.ejs'), {
                 ...status,
                 locale,
+                translations
             }),
         );
 
@@ -180,6 +185,7 @@ command
             return res.render(path.join(webPath, 'index.html.ejs'), {
                 ...status,
                 locale,
+                translations,
             });
         });
 

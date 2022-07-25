@@ -1,0 +1,48 @@
+{
+  "1frZJs": [
+    {
+      "type": 0,
+      "value": "Connect to Wi-Fi"
+    }
+  ],
+  "ClZC/d": [
+    {
+      "type": 0,
+      "value": "Connected to Internet on Wi-Fi "
+    },
+    {
+      "type": 1,
+      "value": "network"
+    }
+  ],
+  "F/Xc6f": [
+    {
+      "type": 0,
+      "value": "Wi-Fi password:"
+    }
+  ],
+  "Iy8s8H": [
+    {
+      "type": 0,
+      "value": "Wi-Fi network:"
+    }
+  ],
+  "JwOtbQ": [
+    {
+      "type": 0,
+      "value": "Device not connected to Internet"
+    }
+  ],
+  "im3rey": [
+    {
+      "type": 0,
+      "value": "Switch Wi-Fi"
+    }
+  ],
+  "qJeGtX": [
+    {
+      "type": 0,
+      "value": "Connect"
+    }
+  ]
+}

@@ -3,11 +3,12 @@
     <head>
         <title>Wifi</title>
         <script type="text/javascript">
-            var props = process.env.NODE_ENV !== 'production' ? {} : {
+            var props = process.env.NODE_ENV === 'production' ? {
                 locale: <%= "\<%=locale%\>" %>,
+                translations: <%= "\<%=translations%\>" %>,
                 online: <%= "\<%=online ? 'true' : 'false'%\>" %>,
                 networks: <%= "\<%-JSON.stringify(networks)%\>" %>
-            };
+            } : {};
         </script>
     </head>
     <body>

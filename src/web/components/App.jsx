@@ -19,15 +19,24 @@ const propTypes = {
     ),
     online: PropTypes.bool,
     locale: PropTypes.string,
+    translations: PropTypes.objectOf(
+        PropTypes.arrayOf(
+            PropTypes.shape({
+                type: PropTypes.number,
+                value: PropTypes.string,
+            }),
+        ),
+    ),
 };
 
 const defaultProps = {
     networks: [],
     online: false,
     locale: 'en',
+    translations: {},
 };
 
-function App({ online: initialOnline, networks: initialNetworks, locale }) {
+function App({ online: initialOnline, networks: initialNetworks, locale, translations }) {
     const [online, setOnline] = useState(initialOnline);
     const [networks, setNetworks] = useState(initialNetworks);
 
@@ -58,7 +67,7 @@ function App({ online: initialOnline, networks: initialNetworks, locale }) {
 
     return (
         <NetworkProvider online={online} networks={networks}>
-            <IntlProvider locale={locale}>
+            <IntlProvider locale={locale} messages={translations}>
                 <Interface onRefreshNetworks={onRefreshNetworks} />
             </IntlProvider>
         </NetworkProvider>
