@@ -3,12 +3,14 @@
     <head>
         <title>Wifi</title>
         <script type="text/javascript">
-            var props = <%= "\<%-fromServer%\>" %> === true ? {
+            <%= "\<% if (typeof fromServer !== 'undefined' && fromServer) { %\>" %>
+            var props = {
                 locale: <%= "\<%=locale%\>" %>,
                 translations: <%= "\<%-JSON.stringify(translations)%\>" %>,
                 online: <%= "\<%=online ? 'true' : 'false'%\>" %>,
                 networks: <%= "\<%-JSON.stringify(networks)%\>" %>
-            } : {};
+            };
+            <%= "\<% } %\>" %>
         </script>
     </head>
     <body>
