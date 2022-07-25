@@ -5,7 +5,7 @@
         <script type="text/javascript">
             <%= "\<% if (typeof fromServer !== 'undefined' && fromServer) { %\>" %>
             var props = {
-                locale: <%= "\<%=locale%\>" %>,
+                locale: <%= "\'\<%=locale%\>\'" %>,
                 translations: <%= "\<%-JSON.stringify(translations)%\>" %>,
                 online: <%= "\<%=online ? 'true' : 'false'%\>" %>,
                 networks: <%= "\<%-JSON.stringify(networks)%\>" %>
