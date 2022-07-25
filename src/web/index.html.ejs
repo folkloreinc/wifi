@@ -3,7 +3,8 @@
     <head>
         <title>Wifi</title>
         <script type="text/javascript">
-            var props = {
+            var props = process.env.NODE_ENV !== 'production' ? {} : {
+                locale: <%= "\<%=locale%\>" %>,
                 online: <%= "\<%=online ? 'true' : 'false'%\>" %>,
                 networks: <%= "\<%-JSON.stringify(networks)%\>" %>
             };
@@ -11,6 +12,5 @@
     </head>
     <body>
         <div id="app"></div>
-        
     </body>
 </html>

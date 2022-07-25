@@ -4,7 +4,7 @@ module.exports = {
             require.resolve('@babel/preset-env'),
             {
                 targets: {
-                    node: 12,
+                    node: 14,
                 },
                 useBuiltIns: false,
             },
@@ -13,6 +13,5 @@ module.exports = {
 
     plugins: [[require.resolve('@babel/plugin-transform-runtime'), {}]],
 
-    ignore: [/node_modules\/(?!is-online)/],
-    // ignore: [],
+    ignore: [/node_modules\/(?!is-online|public-ip)/]
 };

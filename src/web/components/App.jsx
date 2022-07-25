@@ -1,10 +1,14 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { IntlProvider } from 'react-intl';
+import io from 'socket.io-client';
 
-import ConnectForm from './ConnectForm';
+import { NetworkProvider } from '../contexts/NetworkContext';
+import Interface from './Interface';
 
-import styles from '../styles/app.module.scss';
 import '../styles/styles.scss';
+
+const socket = io();
 
 const propTypes = {
     networks: PropTypes.arrayOf(
@@ -13,49 +17,46 @@ const propTypes = {
         }),
     ),
     online: PropTypes.bool,
+    locale: PropTypes.string,
 };
 
 const defaultProps = {
     networks: [],
-    online: true,
+    online: false,
+    locale: 'en',
 };
 
-function App({ online, networks }) {
-    const { ssid: connectedNetwork = null } =
-        networks.find(({ connected = false }) => connected) || {};
+function App({ online: initialOnline, networks: initialNetworks, locale }) {
+    const [online, setOnline] = useState(initialOnline);
+    const [networks, setNetworks] = useState(initialNetworks);
+
+    useEffect(() => {
+        socket.on('status', ({ online: newOnline, networks: newNetworks }) => {
+            setOnline(newOnline);
+            setNetworks(newNetworks);
+        });
+
+        socket.on('online', (newOnline) => {
+            setOnline(newOnline);
+        });
+
+        socket.on('networks', (newNetworks) => {
+            setNetworks(newNetworks);
+        });
+
+        return () => {
+            socket.off('status');
+            socket.off('online');
+            socket.off('networks');
+        };
+    }, [setOnline, setNetworks]);
+
     return (
-        <div className={styles.container}>
-            <div className="container">
-                {online ? (
-                    <div className="row justify-content-center mt-4">
-                        <div className="col-lg-6">
-                            <div className="card text-bg-success">
-                                <div className="card-body  text-center p-4">
-                                    <div className="h4 m-4 text-bold">
-                                        <i className="bi bi-hand-thumbs-up" /> Connecté au Wi-Fi{' '}
-                                        {connectedNetwork}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ) : null}
-                <div className="row justify-content-center mt-4">
-                    <div className="col-lg-6">
-                        <div className="card">
-                            <div className="card-body">
-                                {online ? (
-                                    <h4 className="mb-4">Modifier le Wi-Fi</h4>
-                                ) : (
-                                    <h4 className="mb-4">Connecter le Wi-Fi</h4>
-                                )}
-                                <ConnectForm networks={networks} />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <NetworkProvider online={online} networks={networks}>
+            <IntlProvider locale={locale}>
+                <Interface />
+            </IntlProvider>
+        </NetworkProvider>
     );
 }
 

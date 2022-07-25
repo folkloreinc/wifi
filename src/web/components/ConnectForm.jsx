@@ -3,10 +3,10 @@ import { useForm } from '@folklore/forms';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { useMemo, useCallback } from 'react';
-
-import styles from '../styles/connect-form.module.scss';
+import { FormattedMessage } from 'react-intl';
 
 const propTypes = {
+    online: PropTypes.bool,
     networks: PropTypes.arrayOf(
         PropTypes.shape({
             ssid: PropTypes.string,
@@ -16,11 +16,12 @@ const propTypes = {
 };
 
 const defaultProps = {
+    online: false,
     networks: [],
     className: null,
 };
 
-function ConnectForm({ networks, className }) {
+function ConnectForm({ online, networks, className }) {
     const ssids = useMemo(
         () =>
             networks.reduce(
@@ -33,56 +34,76 @@ function ConnectForm({ networks, className }) {
     const { fields, onSubmit, status } = useForm({
         fields: ['ssid', 'password'],
         action: '/connect',
-        initialValue: ssids.length > 0 ? {
-            ssid: ssids[0]
-         } : null,
+        initialValue:
+            ssids.length > 0
+                ? {
+                      ssid: ssids[0],
+                  }
+                : null,
         getFieldValue,
     });
     return (
-        <form
+        <div
             className={classNames([
-                styles.container,
+                'card',
                 {
                     [className]: className !== null,
                 },
             ])}
-            action="/connect"
-            method="post"
-            onSubmit={onSubmit}
         >
-            <div className="mb-3">
-                <label className="form-label" htmlFor="ssid">
-                    Réseau
-                </label>
-                <select
-                    name="ssid"
-                    className="form-control form-control-lg"
-                    required
-                    {...fields.ssid}
-                >
-                    {ssids.map((ssid) => (
-                        <option value={ssid}>{ssid}</option>
-                    ))}
-                </select>
+            <div className="card-body">
+                {online ? (
+                    <h4 className="mb-4">
+                        <FormattedMessage defaultMessage="Switch Wi-Fi" description="Form title" />
+                    </h4>
+                ) : (
+                    <h4 className="mb-4">
+                        <FormattedMessage
+                            defaultMessage="Connect to Wi-Fi"
+                            description="Form title"
+                        />
+                    </h4>
+                )}
+                <form action="/connect" method="post" onSubmit={onSubmit}>
+                    <div className="mb-3">
+                        <label className="form-label" htmlFor="ssid">
+                            <FormattedMessage defaultMessage="Network" description="Field label" />
+                        </label>
+                        <select
+                            name="ssid"
+                            className="form-control form-control-lg"
+                            required
+                            {...fields.ssid}
+                        >
+                            {ssids.map((ssid) => (
+                                <option value={ssid}>{ssid}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="mb-4">
+                        <label className="form-label" htmlFor="password">
+                            <FormattedMessage defaultMessage="Password" description="Field label" />
+                        </label>
+                        <input
+                            type="text"
+                            name="password"
+                            className="form-control form-control-lg"
+                            required
+                            {...fields.password}
+                        />
+                    </div>
+                    <div>
+                        <button
+                            type="submit"
+                            className="btn btn-lg btn-primary"
+                            disabled={status === 'loading'}
+                        >
+                            <FormattedMessage defaultMessage="Connect" description="Button label" />
+                        </button>
+                    </div>
+                </form>
             </div>
-            <div className="mb-4">
-                <label className="form-label" htmlFor="password">
-                    Mot de passe
-                </label>
-                <input
-                    type="text"
-                    name="password"
-                    className="form-control form-control-lg"
-                    required
-                    {...fields.password}
-                />
-            </div>
-            <div>
-                <button type="submit" className="btn btn-lg btn-primary" disabled={status === 'loading'}>
-                    Se connecter
-                </button>
-            </div>
-        </form>
+        </div>
     );
 }
 

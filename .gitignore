@@ -46,3 +46,5 @@ node_modules
 /output
 /notes
 package-lock.json
+/cli.js
+/index.js

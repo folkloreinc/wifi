@@ -1,4 +1,4 @@
-import path from 'path';
+// import path from 'path';
 import babel from '@rollup/plugin-babel';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
@@ -9,7 +9,8 @@ export const plugins = [
     json(),
     resolve({
         extensions: ['.mjs', '.js', '.jsx', '.json', '.node'],
-        jail: path.join(process.cwd(), 'src'),
+        // jail: path.join(process.cwd(), 'src'),
+        resolveOnly: [/is-online/, /public-ip/],
         preferBuiltins: true,
     }),
     commonjs(),
@@ -25,7 +26,7 @@ export default [
     {
         input: 'src/index.js',
         output: {
-            file: 'dist/index.js',
+            file: 'index.js',
             format: 'cjs'
         },
         plugins,
@@ -33,8 +34,9 @@ export default [
     {
         input: 'src/cli.js',
         output: {
-            file: 'dist/cli.js',
-            format: 'cjs'
+            file: 'cli.js',
+            format: 'cjs',
+            banner: '#!/usr/bin/env node'
         },
         plugins,
     }
