@@ -38,7 +38,7 @@ function Status({ online, networks, className }) {
                 <div
                     className={classNames([
                         {
-                            h4: online,
+                            h5: online,
                             h6: !online,
                             'm-4': online,
                             'm-2': !online,
@@ -57,11 +57,8 @@ function Status({ online, networks, className }) {
                     />
                     {online ? (
                         <FormattedMessage
-                            defaultMessage="Connected to Internet on Wi-Fi {network}"
+                            defaultMessage="Connected to Internet"
                             description="Status label"
-                            values={{
-                                network: connectedNetwork,
-                            }}
                         />
                     ) : (
                         <FormattedMessage
@@ -70,6 +67,7 @@ function Status({ online, networks, className }) {
                         />
                     )}
                 </div>
+                {online ? <p>Wi-Fi: {connectedNetwork}</p> : null}
             </div>
         </div>
     );

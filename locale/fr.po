@@ -17,12 +17,6 @@ msgctxt "1frZJs"
 msgid "Connect to Wi-Fi"
 msgstr "Connectez-vous au Wi-Fi"
 
-# Status label
-#: ClZC/d
-msgctxt "ClZC/d"
-msgid "Connected to Internet on Wi-Fi {network}"
-msgstr "Connecté à Internet via le Wi-Fi {network}"
-
 # Field label
 #: F/Xc6f
 msgctxt "F/Xc6f"
@@ -34,6 +28,12 @@ msgstr "Mot de passe Wi-Fi:"
 msgctxt "Iy8s8H"
 msgid "Wi-Fi network:"
 msgstr "Réseau Wi-Fi:"
+
+# Status label
+#: JLEfPg
+msgctxt "JLEfPg"
+msgid "Connected to Internet"
+msgstr "Connecté à Internet"
 
 # Status label
 #: JwOtbQ
