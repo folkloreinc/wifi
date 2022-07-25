@@ -3,7 +3,7 @@
     <head>
         <title>Wifi</title>
         <script type="text/javascript">
-            var props = process.env.NODE_ENV === 'production' ? {
+            var props = <%= "\<%-fromServer%\>" %> === true ? {
                 locale: <%= "\<%=locale%\>" %>,
                 translations: <%= "\<%-JSON.stringify(translations)%\>" %>,
                 online: <%= "\<%=online ? 'true' : 'false'%\>" %>,

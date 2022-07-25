@@ -175,7 +175,8 @@ command
             res.render(path.join(webPath, 'index.html.ejs'), {
                 ...status,
                 locale,
-                translations
+                translations,
+                fromServer: true
             }),
         );
 
@@ -186,6 +187,7 @@ command
                 ...status,
                 locale,
                 translations,
+                fromServer: true
             });
         });
 
