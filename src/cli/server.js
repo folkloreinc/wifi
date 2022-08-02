@@ -2,30 +2,47 @@ import { Command } from 'commander';
 import createDebug from 'debug';
 import { renderFile } from 'ejs';
 import express from 'express';
+import fs from 'fs-extra';
 import { createServer } from 'http';
 import isOnline from 'is-online';
 // import IsOnlineEmitter from 'is-online-emitter';
 import path from 'path';
 import { Server } from 'socket.io';
-import fs from 'fs-extra';
 
 import Wifi from '../lib/Wifi';
 
 const debug = createDebug('wifi:server');
 const command = new Command('server');
 
-const localesPath = process.env.NODE_ENV === 'production' ? path.join(__dirname, './locale') : path.join(__dirname, '../../locale');
-const webPath = process.env.NODE_ENV === 'production' ? path.join(__dirname, './web') : path.join(__dirname, '../../web');
+const localesPath =
+    process.env.NODE_ENV === 'production'
+        ? path.join(__dirname, './locale')
+        : path.join(__dirname, '../../locale');
+const webPath =
+    process.env.NODE_ENV === 'production'
+        ? path.join(__dirname, './web')
+        : path.join(__dirname, '../../web');
 
 command
     .description('Run server')
-    .option('-p, --port <port>', 'Server port', process.env.UI_PORT || 5000)
-    .option('-l, --locale <locale>', 'interface locale', process.env.UI_LOCALE || 'en')
+    .option('-c, --config <config>', 'Config file')
+    .option('-p, --port <port>', 'Server port')
+    .option('-l, --locale <locale>', 'interface locale')
     .option('-i, --iface <interface>', 'Interface to use')
-    .option('--online-check-interval <interval>', 'Interval to check if online', 10000)
+    .option('--online-check-interval <interval>', 'Interval to check if online')
     .action(async () => {
         // Options
-        const { port, iface = null, locale, onlineCheckInterval } = command.opts();
+        const { config: configPath = null, ...options } = command.opts();
+        const config = configPath !== null ? await fs.readJson(configPath) : null;
+        const {
+            port = process.env.PORT || 5000,
+            iface = null,
+            locale = process.env.UI_LOCALE || 'en',
+            onlineCheckInterval = 10000,
+        } = {
+            ...config,
+            ...options,
+        };
 
         const translations = await fs.readJson(path.join(localesPath, `${locale}.json`));
 
@@ -176,7 +193,7 @@ command
                 ...status,
                 locale,
                 translations,
-                fromServer: true
+                fromServer: true,
             }),
         );
 
@@ -187,7 +204,7 @@ command
                 ...status,
                 locale,
                 translations,
-                fromServer: true
+                fromServer: true,
             });
         });
 
