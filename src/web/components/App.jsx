@@ -9,7 +9,7 @@ import Interface from './Interface';
 
 import '../styles/styles.scss';
 
-const socket = io('http://localhost:8001');
+const socket = io(process.env.NODE_ENV === 'development' ? 'http://localhost:8001' : undefined);
 
 const propTypes = {
     networks: PropTypes.arrayOf(
