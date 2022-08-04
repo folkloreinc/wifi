@@ -45,5 +45,3 @@ node_modules
 /*/*/dist
 /output
 /notes
-/cli.js
-/index.js
